@@ -22,7 +22,7 @@ local function background()
   end
   return {
     data = data(),
-    refresh = function(self)
+    update = function(self)
       self.data = data()
     end,
     osd = function(self)
@@ -35,43 +35,10 @@ local function background()
   }
 end
 
-local function play_pause()
-  local data = function()
-    return {
-      geo = { x = window.width() / 2, y = window.height() - 64, width = 32, height = 32, align = 5 },
-      color = { 'ffffff', '000000', '000000', '000000' },
-      alpha = { 32, 0, 0, 0 },
-      border = 0,
-      blur = 0,
-      font = { name = 'monospace', size = 64 },
-      text = mp.get_property_bool 'pause' and '󰐊' or '󰏤',
-    }
-  end
-  return {
-    data = data(),
-    refresh = function(self)
-      self.data = data()
-    end,
-    osd = function(self)
-      return tags.get(self.data) .. self.data.text
-    end,
-    hitbox = function(self)
-      return hitbox.get(self.data.geo)
-    end,
-    handlers = {
-      mbtn_left_up = function(self, arg)
-        -- todo: hitbox
-        print(arg.x, arg.y)
-        mp.commandv('cycle', 'pause')
-      end,
-    },
-  }
-end
-
 function M.init()
-  elements = { background(), play_pause() }
+  elements = { background(), require('play-pause').create() }
   mp.observe_property('pause', 'bool', function()
-    elements[2]:refresh()
+    elements[2]:update()
     M.redraw()
   end)
   for _, event in ipairs { 'mbtn_left_up' } do
@@ -87,8 +54,8 @@ end
 
 function M.refresh()
   for _, element in ipairs(elements) do
-    if element.refresh then
-      element:refresh()
+    if element.update then
+      element:update()
     end
   end
 end
