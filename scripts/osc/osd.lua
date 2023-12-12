@@ -9,12 +9,16 @@ function M.setup()
   osd.res_y = window.height()
 end
 
-function M.update(data)
+function M.show(data)
   if data == osd.data then
     return
   end
   osd.data = data
   osd:update()
+end
+
+function M.hide()
+  M.show ''
 end
 
 return M

@@ -1,34 +1,24 @@
 -- https://github.com/mpv-player/mpv/blob/master/DOCS/man/lua.rst
 -- https://aegisub.org/docs/latest/ass_tags/
 
+-- bug: mouse cursor does not hide
+
 mp.commandv('set', 'osc', 'no')
 
-local elements = require 'elements'
 local mouse = require 'mouse'
 local osd = require 'osd'
+local ui = require 'ui'
 local window = require 'window'
 
-local shown = false
-
-elements.init()
-
+-- todo: move from here
 mp.observe_property('osd-dimensions', 'native', function()
   window.update()
   osd.setup()
-  elements.refresh()
-  if shown then
-    elements.redraw()
-  end
+  ui.update()
 end)
-
 mouse.on_move(function()
-  elements.redraw()
+  ui.show()
   require('timer').delay(3, function()
-    osd.update ''
-    shown = false
+    ui.hide()
   end)
-  shown = true
 end)
-
--- bug: when (un)pausing, the osc shows up and does not hide
--- bug: mouse cursor does not hide
