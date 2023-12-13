@@ -6,7 +6,7 @@ local osd = require 'osd'
 local elements = {}
 local shown = false
 
-local function bind()
+local function events()
   for _, event in ipairs(mouse.events()) do
     for _, element in ipairs(elements) do
       if element.handlers and element.handlers[event] then
@@ -23,7 +23,7 @@ local function init()
     require('background').create(),
     require('play-pause').create(),
   }
-  bind()
+  events()
 end
 
 init()
