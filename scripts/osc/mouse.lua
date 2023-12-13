@@ -16,8 +16,8 @@ local function on_click(event)
 end
 
 local function init()
-  mp.set_key_bindings({ { 'mouse_move', on_move } }, '_move_', 'force')
-  mp.enable_key_bindings('_move_', 'allow-vo-dragging+allow-hide-cursor')
+  mp.set_key_bindings({ { 'mouse_move', on_move } }, 'move', 'force')
+  mp.enable_key_bindings('move', 'allow-vo-dragging+allow-hide-cursor')
   mp.set_key_bindings({
     {
       'mbtn_left',
@@ -37,8 +37,8 @@ local function init()
         on_click 'mbtn_right_down'
       end,
     },
-  }, '_button_', 'force')
-  mp.enable_key_bindings '_button_'
+  }, 'click', 'force')
+  mp.enable_key_bindings 'click'
 end
 
 init()
@@ -49,6 +49,10 @@ end
 
 function M.subscribe(event, action)
   subscriptions[event] = action
+end
+
+function M.events()
+  return { 'mouse_move', 'mbtn_left_up' }
 end
 
 return M

@@ -6,20 +6,8 @@ local osd = require 'osd'
 local elements = {}
 local shown = false
 
-local function init()
-  elements = {
-    require('background').create(),
-    require('play-pause').create(),
-  }
-
-  -- todo: move from here
-  mp.observe_property('pause', 'bool', function()
-    elements[2]:update()
-    if shown then
-      M.show()
-    end
-  end)
-  for _, event in ipairs { 'mbtn_left_up' } do
+local function bind()
+  for _, event in ipairs(mouse.events()) do
     for _, element in ipairs(elements) do
       if element.handlers and element.handlers[event] then
         mouse.subscribe(event, function(arg)
@@ -28,6 +16,14 @@ local function init()
       end
     end
   end
+end
+
+local function init()
+  elements = {
+    require('background').create(),
+    require('play-pause').create(),
+  }
+  bind()
 end
 
 init()
