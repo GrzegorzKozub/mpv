@@ -33,8 +33,9 @@ local function calculate(x, y, w, h, al)
   return aligns[al]()
 end
 
-function M.get(geo)
-  return calculate(geo.x, geo.y, geo.width, geo.height, geo.align)
+function M.hit(geo, mouse)
+  local x1, y1, x2, y2 = calculate(geo.x, geo.y, geo.width, geo.height, geo.align)
+  return mouse.x >= x1 and mouse.x <= x2 and mouse.y >= y1 and mouse.y <= y2
 end
 
 return M

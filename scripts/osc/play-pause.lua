@@ -39,10 +39,9 @@ function M.create()
     end,
     handlers = {
       mbtn_left_up = function(self, arg)
-        -- todo: hitbox
-        -- local hb = hitbox.get(self.data.geo)
-        -- print(arg.x, arg.y, '-', hb.x, hb.y)
-        mp.commandv('cycle', 'pause')
+        if hitbox.hit(self.data.geo, arg) then
+          mp.commandv('cycle', 'pause')
+        end
       end,
     },
   }
