@@ -47,11 +47,13 @@ function M.show()
     end
   end
   osd.show(data)
+  mouse.enable()
   shown = true
 end
 
 function M.hide()
   osd.hide()
+  mouse.disable()
   shown = false
 end
 
