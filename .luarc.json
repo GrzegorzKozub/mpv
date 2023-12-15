@@ -1,7 +1,7 @@
 {
   "diagnostics": {
-    "disable": ["lowercase-global"],
-    "globals": ["mp"],
-    "unusedLocalExclude": ["self"]
+    "globals": [
+      "mp"
+    ]
   }
 }

@@ -14,22 +14,24 @@ local function property_changes()
   mp.observe_property('pause', 'bool', ui.update)
 end
 
-local function mouse_input()
-  mouse.on_move(function()
-    local x, y = mp.get_mouse_pos()
-    if x > 0 and x < window.width() and y > window.height() - 128 and y < window.height() then
+local function mouse_in_active_area(arg)
+  return arg.x > 0 and arg.x < window.width() and arg.y > window.height() - 128 and arg.y < window.height()
+end
+
+local function mouse_move()
+  mouse.subscribe('mouse_move', function(arg)
+    if mouse_in_active_area(arg) then
       ui.show()
       require('timer').delay(3, ui.hide)
     else
       mouse.disable()
     end
-
   end)
 end
 
 function M.init()
   property_changes()
-  mouse_input()
+  mouse_move()
 end
 
 return M
