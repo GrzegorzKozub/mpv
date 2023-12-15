@@ -13,19 +13,10 @@ function M.get(data)
         data.color[4]
       )
   end
-  if data.alpha then
-    tags = tags
-      .. string.format(
-        '\\1a&H%x&\\2a&H%x&\\3a&H%x&\\4a&H%x&',
-        data.alpha[1],
-        data.alpha[2],
-        data.alpha[3],
-        data.alpha[4]
-      )
-  end
-  if data.border then
-    tags = tags .. string.format('\\bord%.2f', data.border)
-  end
+  local alpha = data.alpha or { 0, 0, 0, 0 }
+  tags = tags .. string.format('\\1a&H%x&\\2a&H%x&\\3a&H%x&\\4a&H%x&', alpha[1], alpha[2], alpha[3], alpha[4])
+  local border = data.border or 0
+  tags = tags .. string.format('\\bord%.2f', border)
   if data.blur then
     tags = tags .. string.format('\\blur%.2f', data.blur)
   end

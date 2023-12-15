@@ -9,7 +9,7 @@ local function x()
 end
 
 local function y()
-  return window.height() - 64
+  return window.height() - 48
 end
 
 local function text()
@@ -20,7 +20,6 @@ local function data()
   return {
     geo = { x = x(), y = y(), width = 32, height = 32, align = 5 },
     color = { 'ffffff', '000000', '000000', '000000' },
-    border = 0,
     font = { name = 'monospace', size = 64 },
     text = text(),
   }

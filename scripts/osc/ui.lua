@@ -21,6 +21,7 @@ end
 local function init()
   elements = {
     require('background').create(),
+    require('seek').create(),
     require('play-pause').create(),
   }
   events()
