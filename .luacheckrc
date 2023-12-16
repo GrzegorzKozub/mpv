@@ -1,1 +1,1 @@
-globals = { 'mp' }
+globals = { 'jit', 'mp' }
