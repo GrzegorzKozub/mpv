@@ -9,24 +9,27 @@ local shown = false
 
 local function events()
   for _, element in ipairs(elements) do
-    if element.handlers and element.handlers['time'] then
-      time.subscribe(element.handlers['time'])
+    if not element.handlers then
+      goto continue
+    end
+    local handlers = element.handlers()
+    if handlers['time'] then
+      time.subscribe(handlers['time'])
     end
     for _, event in ipairs(mouse.events()) do
-      if element.handlers and element.handlers[event] then
-        mouse.subscribe(event, function(arg)
-          element.handlers[event](element, arg)
-        end)
+      if handlers[event] then
+        mouse.subscribe(event, handlers[event])
       end
     end
+    ::continue::
   end
 end
 
 local function init()
   elements = {
-    require('background').create(),
-    require('seek').create(),
-    require('play-pause').create(),
+    require 'background',
+    require 'seek',
+    require 'play-pause',
   }
   events()
 end
@@ -36,7 +39,7 @@ init()
 function M.update()
   for _, element in ipairs(elements) do
     if element.update then
-      element:update()
+      element.update()
     end
   end
   if shown then
@@ -48,7 +51,7 @@ function M.show()
   local data = ''
   for _, element in ipairs(elements) do
     if element.osd then
-      data = data .. element:osd() .. '\n'
+      data = data .. element.osd() .. '\n'
     end
   end
   osd.show(data)

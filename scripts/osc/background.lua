@@ -12,25 +12,19 @@ local function width()
   return window.width()
 end
 
-local function data()
-  return {
-    geo = { x = 0, y = y(), width = width(), height = 1, align = 7 },
-    border = 128,
-    blur = 128,
-  }
+local data = {
+  geo = { x = 0, y = y(), width = width(), height = 1, align = 7 },
+  border = 128,
+  blur = 128,
+}
+
+function M.update()
+  data.geo.y = y()
+  data.geo.width = width()
 end
 
-function M.create()
-  return {
-    data = data(),
-    update = function(self)
-      self.data.geo.y = y()
-      self.data.geo.width = width()
-    end,
-    osd = function(self)
-      return tags.get(self.data) .. draw.box(self.data.geo.width, self.data.geo.height)
-    end,
-  }
+function M.osd()
+  return tags.get(data) .. draw.box(data.geo.width, data.geo.height)
 end
 
 return M

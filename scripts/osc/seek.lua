@@ -29,51 +29,47 @@ local function seek(x)
   require('ui').update()
 end
 
-local function data()
-  return {
-    bg = {
-      geo = { x = margin, y = y(), width = bg_width(), height = 8, align = 7 },
-      alpha = { 196, 0, 0, 0 },
-    },
-    fg = {
-      geo = { x = margin, y = y(), width = fg_width(), height = 8, align = 7 },
-      alpha = { 64, 0, 0, 0 },
-    },
-  }
+local bg = {
+  geo = { x = margin, y = y(), width = bg_width(), height = 8, align = 7 },
+  alpha = { 196, 0, 0, 0 },
+}
+
+local fg = {
+  geo = { x = margin, y = y(), width = fg_width(), height = 8, align = 7 },
+  alpha = { 64, 0, 0, 0 },
+}
+
+function M.update()
+  bg.geo.y = y()
+  bg.geo.width = bg_width()
+  fg.geo.y = y()
+  fg.geo.width = fg_width()
 end
 
-function M.create()
+function M.osd()
+  return tags.get(bg)
+      .. draw.box(bg.geo.width, bg.geo.height)
+      .. '\n'
+      .. tags.get(fg)
+      .. draw.box(fg.geo.width, fg.geo.height)
+end
+
+function M.handlers()
   return {
-    data = data(),
-    update = function(self)
-      self.data.bg.geo.y = y()
-      self.data.bg.geo.width = bg_width()
-      self.data.fg.geo.y = y()
-      self.data.fg.geo.width = fg_width()
+    mbtn_left_down = function(arg)
+      if hitbox.hit(bg.geo, arg) then
+        seek(arg.x)
+        dragging = true
+      end
     end,
-    osd = function(self)
-      return tags.get(self.data.bg)
-        .. draw.box(self.data.bg.geo.width, self.data.bg.geo.height)
-        .. '\n'
-        .. tags.get(self.data.fg)
-        .. draw.box(self.data.fg.geo.width, self.data.fg.geo.height)
+    mouse_move = function(arg)
+      if dragging then
+        seek(arg.x)
+      end
     end,
-    handlers = {
-      mbtn_left_down = function(self, arg)
-        if hitbox.hit(self.data.bg.geo, arg) then
-          seek(arg.x)
-          dragging = true
-        end
-      end,
-      mouse_move = function(self, arg)
-        if dragging then
-          seek(arg.x)
-        end
-      end,
-      mbtn_left_up = function(self, arg)
-        dragging = false
-      end,
-    },
+    mbtn_left_up = function(arg)
+      dragging = false
+    end,
   }
 end
 

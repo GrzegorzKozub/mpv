@@ -16,33 +16,30 @@ local function text()
   return mp.get_property_bool 'pause' and '󰐊' or '󰏤'
 end
 
-local function data()
-  return {
-    geo = { x = x(), y = y(), width = 32, height = 32, align = 5 },
-    color = { 'ffffff', '000000', '000000', '000000' },
-    font = { name = require('env').win() and 'CaskaydiaCove NF' or 'monospace', size = 64 },
-    text = text(),
-  }
+local data = {
+  geo = { x = x(), y = y(), width = 32, height = 32, align = 5 },
+  color = { 'ffffff', '000000', '000000', '000000' },
+  font = { name = require('env').win() and 'CaskaydiaCove NF' or 'monospace', size = 64 },
+  text = text(),
+}
+
+function M.update()
+  data.geo.x = x()
+  data.geo.y = y()
+  data.text = text()
 end
 
-function M.create()
+function M.osd()
+  return tags.get(data) .. data.text
+end
+
+function M.handlers()
   return {
-    data = data(),
-    update = function(self)
-      self.data.geo.x = x()
-      self.data.geo.y = y()
-      self.data.text = text()
+    mbtn_left_up = function(arg)
+      if hitbox.hit(data.geo, arg) then
+        mp.commandv('cycle', 'pause')
+      end
     end,
-    osd = function(self)
-      return tags.get(self.data) .. self.data.text
-    end,
-    handlers = {
-      mbtn_left_up = function(self, arg)
-        if hitbox.hit(self.data.geo, arg) then
-          mp.commandv('cycle', 'pause')
-        end
-      end,
-    },
   }
 end
 
