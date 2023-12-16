@@ -24,7 +24,7 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(data) .. draw.box(data.geo.width, data.geo.height)
+  return tags.get(data) .. draw.box(data.geo.width, data.geo.height, 0)
 end
 
 return M

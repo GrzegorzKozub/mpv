@@ -20,17 +20,15 @@ local data = {
   geo = { x = x(), y = y(), width = 32, height = 32, align = 5 },
   color = { 'ffffff', '000000', '000000', '000000' },
   font = { name = require('env').win() and 'CaskaydiaCove NF' or 'monospace', size = 64 },
-  text = text(),
 }
 
 function M.update()
   data.geo.x = x()
   data.geo.y = y()
-  data.text = text()
 end
 
 function M.osd()
-  return tags.get(data) .. data.text
+  return tags.get(data) .. text()
 end
 
 function M.handlers()
