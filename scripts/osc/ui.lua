@@ -2,13 +2,17 @@ local M = {}
 
 local mouse = require 'mouse'
 local osd = require 'osd'
+local time = require 'time'
 
 local elements = {}
 local shown = false
 
 local function events()
-  for _, event in ipairs(mouse.events()) do
-    for _, element in ipairs(elements) do
+  for _, element in ipairs(elements) do
+    if element.handlers and element.handlers['time'] then
+      time.subscribe(element.handlers['time'])
+    end
+    for _, event in ipairs(mouse.events()) do
       if element.handlers and element.handlers[event] then
         mouse.subscribe(event, function(arg)
           element.handlers[event](element, arg)

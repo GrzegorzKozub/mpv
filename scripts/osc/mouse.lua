@@ -1,6 +1,10 @@
 local M = {}
 
-local subscriptions = {}
+local subscriptions = {
+  mouse_move = {},
+  mbtn_left_down = {},
+  mbtn_left_up = {},
+}
 
 local function on_leave()
   M.disable()
@@ -9,7 +13,9 @@ end
 local function on(event)
   local x, y = mp.get_mouse_pos()
   if subscriptions[event] then
-    subscriptions[event] { x = x, y = y }
+    for _, subscription in ipairs(subscriptions[event]) do
+      subscription { x = x, y = y }
+    end
   end
 end
 
@@ -49,11 +55,11 @@ end
 init()
 
 function M.events()
-  return { 'mouse_move', 'mbtn_left_up' }
+  return { 'mouse_move', 'mbtn_left_down', 'mbtn_left_up' }
 end
 
 function M.subscribe(event, action)
-  subscriptions[event] = action
+  table.insert(subscriptions[event], action)
 end
 
 function M.enable()

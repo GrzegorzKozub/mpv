@@ -1,17 +1,24 @@
 local M = {}
 
+local delay = require 'delay'
 local osd = require 'osd'
 local mouse = require 'mouse'
+local time = require 'time'
 local ui = require 'ui'
 local window = require 'window'
 
-local function property_changes()
+local function time_tick()
+  time.subscribe(ui.update)
+end
+
+local function property_change()
   mp.observe_property('osd-dimensions', 'native', function()
     window.update()
     osd.setup()
     ui.update()
   end)
-  mp.observe_property('pause', 'bool', ui.update)
+  mp.observe_property('pause', 'native', ui.update)
+  -- mp.observe_property('percent-pos', 'number', ui.update)
 end
 
 local function mouse_in_active_area(arg)
@@ -22,7 +29,7 @@ local function mouse_move()
   mouse.subscribe('mouse_move', function(arg)
     if mouse_in_active_area(arg) then
       ui.show()
-      require('timer').delay(3, ui.hide)
+      delay.restart(ui.hide)
     else
       mouse.disable()
     end
@@ -30,7 +37,8 @@ local function mouse_move()
 end
 
 function M.init()
-  property_changes()
+  time_tick()
+  property_change()
   mouse_move()
 end
 

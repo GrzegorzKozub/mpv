@@ -1,6 +1,5 @@
 local M = {}
 
-local delay = 0
 local elapsed = 0
 local callback = nil
 local timer = nil
@@ -14,7 +13,7 @@ end
 
 local function tick()
   elapsed = elapsed + 1
-  if elapsed >= delay then
+  if elapsed >= 3 then
     if callback then
       callback()
     end
@@ -22,9 +21,8 @@ local function tick()
   end
 end
 
-function M.delay(seconds, action)
+function M.restart(action)
   reset()
-  delay = seconds
   callback = action
   timer = mp.add_periodic_timer(1, tick)
 end
