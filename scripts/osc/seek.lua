@@ -69,8 +69,6 @@ function M.update()
   fg.geo.width = fg_width()
 end
 
-M.update()
-
 function M.osd()
   return tags.get(bg) .. draw.box(bg) .. '\n' .. tags.get(fg) .. draw.box(fg)
 end

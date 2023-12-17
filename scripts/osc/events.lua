@@ -7,10 +7,6 @@ local time = require 'time'
 local ui = require 'ui'
 local window = require 'window'
 
-local function time_tick()
-  time.subscribe(ui.update)
-end
-
 local function property_change()
   mp.observe_property('osd-dimensions', 'native', function()
     window.update()
@@ -28,8 +24,14 @@ end
 local function mouse_move()
   mouse.subscribe('mouse_move', function(arg)
     if mouse_in_active_area(arg) then
+      ui.update()
       ui.show()
-      delay.restart(ui.hide)
+      mouse.enable()
+      time.start()
+      delay.restart(function()
+        ui.hide()
+        time.stop()
+      end)
     else
       mouse.disable()
     end
@@ -37,7 +39,6 @@ local function mouse_move()
 end
 
 function M.init()
-  time_tick()
   property_change()
   mouse_move()
 end

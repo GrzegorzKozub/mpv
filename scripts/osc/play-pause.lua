@@ -27,8 +27,6 @@ function M.update()
   data.geo.y = y()
 end
 
-M.update()
-
 function M.osd()
   return tags.get(data) .. text()
 end

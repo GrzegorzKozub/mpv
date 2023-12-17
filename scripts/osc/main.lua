@@ -5,7 +5,3 @@ mp.commandv('set', 'osc', 'no')
 
 require('events').init()
 
--- todo: remove time subscriptions when not needed
--- todo: lighter hover color
--- todo: bigger seeker on hover
-

@@ -7,6 +7,7 @@ local timer = nil
 local function reset()
   if timer then
     timer:kill()
+    timer = nil
     elapsed = 0
   end
 end

@@ -23,8 +23,6 @@ function M.update()
   data.geo.width = width()
 end
 
-M.update()
-
 function M.osd()
   return tags.get(data) .. draw.box(data)
 end

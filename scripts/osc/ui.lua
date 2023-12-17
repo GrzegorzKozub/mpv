@@ -13,9 +13,6 @@ local function events()
       goto continue
     end
     local handlers = element.handlers()
-    if handlers['time'] then
-      time.subscribe(handlers['time'])
-    end
     for _, event in ipairs(mouse.events()) do
       if handlers[event] then
         mouse.subscribe(event, handlers[event])
@@ -32,9 +29,9 @@ local function init()
     require 'play-pause',
   }
   events()
+  time.subscribe(M.update)
 end
 
-init()
 
 function M.update()
   for _, element in ipairs(elements) do
@@ -55,14 +52,15 @@ function M.show()
     end
   end
   osd.show(data)
-  mouse.enable()
   shown = true
 end
 
 function M.hide()
   osd.hide()
-  mouse.disable()
   shown = false
 end
+
+init()
+M.update()
 
 return M
