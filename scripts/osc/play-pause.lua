@@ -1,5 +1,6 @@
 local M = {}
 
+local default = require 'default'
 local hitbox = require 'hitbox'
 local tags = require 'tags'
 local window = require 'window'
@@ -16,13 +17,23 @@ local function text()
   return mp.get_property_bool 'pause' and '󰐊' or '󰏤'
 end
 
-local data = {
-  geo = { width = 32, height = 32, align = 5 },
-  alpha = { 64, 0, 64, 0 },
+local data = default.get {
+  geo = { height = 32, width = 32, align = 5 },
   font = { size = 64 },
 }
 
+-- local data = {
+--   geo = { width = 32, height = 32, align = 5 },
+--   alpha = { 64, 0, 64, 0 },
+--   font = { size = 64 },
+-- }
+
 function M.update()
+  -- data.geo.width = 32
+  -- data.geo.height = 32
+  -- data.geo.align = 5
+  -- data.font.size = 64
+
   data.geo.x = x()
   data.geo.y = y()
 end
