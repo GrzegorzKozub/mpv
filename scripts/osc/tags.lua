@@ -15,7 +15,7 @@ function M.get(data)
   end
   local alpha = data.alpha or { 64, 0, 0, 0 }
   tags = tags .. string.format('\\1a&H%x&\\2a&H%x&\\3a&H%x&\\4a&H%x&', alpha[1], alpha[2], alpha[3], alpha[4])
-  local border = data.border or 0
+  local border = data.border and data.border.size or 0
   tags = tags .. string.format('\\bord%.2f', border)
   if data.blur then
     tags = tags .. string.format('\\blur%.2f', data.blur)

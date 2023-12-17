@@ -13,8 +13,8 @@ local function width()
 end
 
 local data = {
-  geo = { x = 0, y = y(), width = width(), height = 1, align = 7 },
-  border = 128,
+  geo = { x = 0, height = 1, align = 7 },
+  border = { size = 128 },
   blur = 128,
 }
 
@@ -23,8 +23,10 @@ function M.update()
   data.geo.width = width()
 end
 
+M.update()
+
 function M.osd()
-  return tags.get(data) .. draw.box(data.geo.width, data.geo.height, 0)
+  return tags.get(data) .. draw.box(data)
 end
 
 return M
