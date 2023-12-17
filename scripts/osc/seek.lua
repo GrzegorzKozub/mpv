@@ -56,7 +56,7 @@ local bg = {
 
 local fg = {
   geo = { x = margin, align = 7 },
-  alpha = { 64, 0, 0, 0 },
+  alpha = { 64, 0, 64, 0 },
   border = { radius = 4 },
 }
 
@@ -83,6 +83,15 @@ function M.handlers()
     end,
     mouse_move = function(arg)
       if hitbox.hit(bg.geo, arg) then
+        fg.alpha[1] = 0
+        fg.border.size = 2
+        fg.blur = 10
+      else
+        fg.alpha[1] = 64
+        fg.border.size = 0
+        fg.blur = 0
+      end
+      if hitbox.hit(bg.geo, arg) or dragging then
         zoom_in()
       else
         zoom_out()

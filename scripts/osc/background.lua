@@ -13,7 +13,8 @@ local function width()
 end
 
 local data = {
-  geo = { x = 0, height = 1, align = 7 },
+  geo = { x = 0, height = 128, align = 7 },
+  color = { '000000', '000000', '000000', '000000' },
   border = { size = 128 },
   blur = 128,
 }

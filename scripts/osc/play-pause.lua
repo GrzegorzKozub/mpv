@@ -18,8 +18,8 @@ end
 
 local data = {
   geo = { width = 32, height = 32, align = 5 },
-  color = { 'ffffff', '000000', '000000', '000000' },
-  font = { name = require('env').win() and 'CaskaydiaCove NF' or 'monospace', size = 64 },
+  alpha = { 64, 0, 64, 0 },
+  font = { size = 64 },
 }
 
 function M.update()
@@ -33,6 +33,17 @@ end
 
 function M.handlers()
   return {
+    mouse_move = function(arg)
+      if hitbox.hit(data.geo, arg) then
+        data.alpha[1] = 0
+        data.border = { size = 2 }
+        data.blur = 10
+      else
+        data.alpha[1] = 64
+        data.border = nil
+        data.blur = 0
+      end
+    end,
     mbtn_left_up = function(arg)
       if hitbox.hit(data.geo, arg) then
         mp.commandv('cycle', 'pause')
