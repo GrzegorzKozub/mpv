@@ -30,6 +30,7 @@ local function mouse_move()
       time.start()
       delay.restart(function()
         ui.hide()
+        mouse.disable()
         time.stop()
       end)
     else

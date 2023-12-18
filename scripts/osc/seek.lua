@@ -2,12 +2,11 @@ local M = {}
 
 local draw = require 'draw'
 local hitbox = require 'hitbox'
+local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
-local margin = 16
-local zoomed = false
-local dragging = false
+local margin, zoomed, dragging = 16, false, false
 
 local function y()
   return window.height() - 96 - margin - ((zoomed or dragging) and 2 or 0)
@@ -48,17 +47,21 @@ local function seek(x)
   require('ui').update()
 end
 
-local bg = {
-  geo = { x = margin, align = 7 },
-  alpha = { 196, 0, 0, 0 },
-  border = { radius = 4 },
-}
+local fg, bg = {}, {}
 
-local fg = {
-  geo = { x = margin, align = 7 },
-  alpha = { 64, 0, 64, 0 },
-  border = { radius = 4 },
-}
+local function reset()
+  fg = spec.default {
+    geo = { x = margin },
+    border = { radius = 4 },
+  }
+  bg = spec.default {
+    geo = { x = margin },
+    alpha = { 196, 0, 0, 0 },
+    border = { radius = 4 },
+  }
+end
+
+reset()
 
 function M.update()
   for _, data in ipairs { bg, fg } do
@@ -83,13 +86,9 @@ function M.handlers()
     end,
     mouse_move = function(arg)
       if hitbox.hit(bg.geo, arg) then
-        fg.alpha[1] = 0
-        fg.border.size = 2
-        fg.blur = 10
+        spec.hover(fg)
       else
-        fg.alpha[1] = 64
-        fg.border.size = 0
-        fg.blur = 0
+        reset()
       end
       if hitbox.hit(bg.geo, arg) or dragging then
         zoom_in()

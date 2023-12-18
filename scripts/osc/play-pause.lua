@@ -1,7 +1,7 @@
 local M = {}
 
-local default = require 'default'
 local hitbox = require 'hitbox'
+local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
@@ -17,46 +17,37 @@ local function text()
   return mp.get_property_bool 'pause' and '󰐊' or '󰏤'
 end
 
-local data = default.get {
-  geo = { height = 32, width = 32, align = 5 },
-  font = { size = 64 },
-}
+local fg = {}
 
--- local data = {
---   geo = { width = 32, height = 32, align = 5 },
---   alpha = { 64, 0, 64, 0 },
---   font = { size = 64 },
--- }
+local function reset()
+  fg = spec.default {
+    geo = { height = 32, width = 32, align = 5 },
+    font = { size = 64 },
+  }
+end
+
+reset()
 
 function M.update()
-  -- data.geo.width = 32
-  -- data.geo.height = 32
-  -- data.geo.align = 5
-  -- data.font.size = 64
-
-  data.geo.x = x()
-  data.geo.y = y()
+  fg.geo.x = x()
+  fg.geo.y = y()
 end
 
 function M.osd()
-  return tags.get(data) .. text()
+  return tags.get(fg) .. text()
 end
 
 function M.handlers()
   return {
     mouse_move = function(arg)
-      if hitbox.hit(data.geo, arg) then
-        data.alpha[1] = 0
-        data.border = { size = 2 }
-        data.blur = 10
+      if hitbox.hit(fg.geo, arg) then
+        spec.hover(fg)
       else
-        data.alpha[1] = 64
-        data.border = nil
-        data.blur = 0
+        reset()
       end
     end,
     mbtn_left_up = function(arg)
-      if hitbox.hit(data.geo, arg) then
+      if hitbox.hit(fg.geo, arg) then
         mp.commandv('cycle', 'pause')
       end
     end,

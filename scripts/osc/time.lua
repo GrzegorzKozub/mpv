@@ -1,7 +1,6 @@
 local M = {}
 
-local timer = nil
-local subscriptions = {}
+local timer, subscriptions = nil, {}
 
 local function on_tick()
   for _, subscription in ipairs(subscriptions) do

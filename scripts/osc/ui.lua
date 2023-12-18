@@ -4,8 +4,7 @@ local mouse = require 'mouse'
 local osd = require 'osd'
 local time = require 'time'
 
-local elements = {}
-local shown = false
+local elements, shown = {}, false
 
 local function events()
   for _, element in ipairs(elements) do

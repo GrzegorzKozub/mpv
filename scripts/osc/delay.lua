@@ -1,8 +1,6 @@
 local M = {}
 
-local elapsed = 0
-local callback = nil
-local timer = nil
+local elapsed, callback, timer = 0, nil, nil
 
 local function reset()
   if timer then

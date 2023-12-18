@@ -1,6 +1,7 @@
 local M = {}
 
 local draw = require 'draw'
+local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
@@ -12,20 +13,26 @@ local function width()
   return window.width()
 end
 
-local data = {
-  geo = { x = 0, height = 128, align = 7 },
-  color = { '000000', '000000', '000000', '000000' },
-  border = { size = 128 },
-  blur = 128,
-}
+local fg = {}
+
+local function reset()
+  fg = spec.default {
+    geo = { height = 128 },
+    color = { '000000', '000000', '000000', '000000' },
+    border = { size = 128 },
+    blur = 128,
+  }
+end
+
+reset()
 
 function M.update()
-  data.geo.y = y()
-  data.geo.width = width()
+  fg.geo.y = y()
+  fg.geo.width = width()
 end
 
 function M.osd()
-  return tags.get(data) .. draw.box(data)
+  return tags.get(fg) .. draw.box(fg)
 end
 
 return M
