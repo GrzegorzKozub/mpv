@@ -27,10 +27,14 @@ local function init()
     require 'seek',
     require 'play-pause',
   }
+  for _, element in ipairs(elements) do
+    if element.reset then
+      element.reset()
+    end
+  end
   events()
   time.subscribe(M.update)
 end
-
 
 function M.update()
   for _, element in ipairs(elements) do

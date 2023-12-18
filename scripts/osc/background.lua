@@ -5,6 +5,8 @@ local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
+local fg = {}
+
 local function y()
   return window.height()
 end
@@ -13,9 +15,7 @@ local function width()
   return window.width()
 end
 
-local fg = {}
-
-local function reset()
+function M.reset()
   fg = spec.default {
     geo = { height = 128 },
     color = { '000000', '000000', '000000', '000000' },
@@ -23,8 +23,6 @@ local function reset()
     blur = 128,
   }
 end
-
-reset()
 
 function M.update()
   fg.geo.y = y()

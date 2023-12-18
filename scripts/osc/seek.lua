@@ -7,6 +7,7 @@ local tags = require 'tags'
 local window = require 'window'
 
 local margin, zoomed, dragging = 16, false, false
+local fg, bg = {}, {}
 
 local function y()
   return window.height() - 96 - margin - ((zoomed or dragging) and 2 or 0)
@@ -28,15 +29,19 @@ local function percent(x)
   return math.min(math.max((x - margin) / bg_width() * 100, 0), 100)
 end
 
-local function zoom_in()
-  if not zoomed then
-    zoomed = true
-    require('ui').update()
+local function hover(arg)
+  if hitbox.hit(bg.geo, arg) then
+    spec.hover(fg)
+  else
+    M.reset()
   end
 end
 
-local function zoom_out()
-  if zoomed then
+local function zoom(arg)
+  if not zoomed and hitbox.hit(bg.geo, arg) or dragging then
+    zoomed = true
+    require('ui').update()
+  elseif zoomed then
     zoomed = false
     require('ui').update()
   end
@@ -47,9 +52,7 @@ local function seek(x)
   require('ui').update()
 end
 
-local fg, bg = {}, {}
-
-local function reset()
+function M.reset()
   fg = spec.default {
     geo = { x = margin },
     border = { radius = 4 },
@@ -60,8 +63,6 @@ local function reset()
     border = { radius = 4 },
   }
 end
-
-reset()
 
 function M.update()
   for _, data in ipairs { bg, fg } do
@@ -85,16 +86,8 @@ function M.handlers()
       end
     end,
     mouse_move = function(arg)
-      if hitbox.hit(bg.geo, arg) then
-        spec.hover(fg)
-      else
-        reset()
-      end
-      if hitbox.hit(bg.geo, arg) or dragging then
-        zoom_in()
-      else
-        zoom_out()
-      end
+      hover(arg)
+      zoom(arg)
       if dragging then
         seek(arg.x)
       end
