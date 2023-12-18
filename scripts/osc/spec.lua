@@ -1,5 +1,6 @@
 local M = {}
 
+local font = require 'font'
 local util = require 'util'
 
 local default = {
@@ -8,7 +9,7 @@ local default = {
   alpha = { 64, 0, 64, 0 },
   border = { size = 0, radius = 0 },
   blur = 0,
-  font = { name = (require('env').win() and 'CaskaydiaCove NF' or 'monospace'), size = 32 },
+  font = { name = font.monospace, size = 32 },
 }
 
 function M.default(also)

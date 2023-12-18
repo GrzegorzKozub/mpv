@@ -3,7 +3,8 @@ local M = {}
 local delay = require 'delay'
 local osd = require 'osd'
 local mouse = require 'mouse'
-local time = require 'time'
+local size = require 'size'
+local timer = require 'timer'
 local ui = require 'ui'
 local window = require 'window'
 
@@ -18,7 +19,7 @@ local function property_change()
 end
 
 local function mouse_in_active_area(arg)
-  return arg.x > 0 and arg.x < window.width() and arg.y > window.height() - 128 and arg.y < window.height()
+  return arg.x > 0 and arg.x < window.width() and arg.y > window.height() - size.ui.height and arg.y < window.height()
 end
 
 local function mouse_move()
@@ -27,11 +28,11 @@ local function mouse_move()
       ui.update()
       ui.show()
       mouse.enable()
-      time.start()
+      timer.start()
       delay.restart(function()
         ui.hide()
         mouse.disable()
-        time.stop()
+        timer.stop()
       end)
     else
       mouse.disable()

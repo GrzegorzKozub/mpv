@@ -2,31 +2,32 @@ local M = {}
 
 local draw = require 'draw'
 local hitbox = require 'hitbox'
+local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
-local margin, zoomed, dragging = 16, false, false
+local zoomed, dragging = false, false
 local fg, bg = {}, {}
 
-local function y()
-  return window.height() - 96 - margin - ((zoomed or dragging) and 2 or 0)
+local function height()
+  return (zoomed or dragging) and 12 or 8
 end
 
 local function bg_width()
-  return window.width() - 2 * margin
+  return window.width() - 2 * size.margin
 end
 
 local function fg_width()
   return (mp.get_property_number 'percent-pos' or 0) * bg_width() / 100
 end
 
-local function height()
-  return (zoomed or dragging) and 12 or 8
+local function y()
+  return window.height() - 2 * size.margin - size.button - height() + ((zoomed or dragging) and 2 or 0)
 end
 
 local function percent(x)
-  return math.min(math.max((x - margin) / bg_width() * 100, 0), 100)
+  return math.min(math.max((x - size.margin) / bg_width() * 100, 0), 100)
 end
 
 local function hover(arg)
@@ -38,12 +39,16 @@ local function hover(arg)
 end
 
 local function zoom(arg)
-  if not zoomed and hitbox.hit(bg.geo, arg) or dragging then
-    zoomed = true
-    require('ui').update()
-  elseif zoomed then
-    zoomed = false
-    require('ui').update()
+  if hitbox.hit(bg.geo, arg) or dragging then
+    if not zoomed then
+      zoomed = true
+      require('ui').update()
+    end
+  else
+    if zoomed then
+      zoomed = false
+      require('ui').update()
+    end
   end
 end
 
@@ -54,23 +59,23 @@ end
 
 function M.reset()
   fg = spec.default {
-    geo = { x = margin },
+    geo = { x = size.margin },
     border = { radius = 4 },
   }
   bg = spec.default {
-    geo = { x = margin },
+    geo = { x = size.margin },
     alpha = { 196, 0, 0, 0 },
     border = { radius = 4 },
   }
 end
 
 function M.update()
-  for _, data in ipairs { bg, fg } do
-    data.geo.y = y()
+  for _, data in ipairs { fg, bg } do
     data.geo.height = height()
+    data.geo.y = y()
   end
-  bg.geo.width = bg_width()
   fg.geo.width = fg_width()
+  bg.geo.width = bg_width()
 end
 
 function M.osd()

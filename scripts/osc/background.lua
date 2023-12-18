@@ -1,32 +1,33 @@
 local M = {}
 
 local draw = require 'draw'
+local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
 local fg = {}
 
-local function y()
-  return window.height()
-end
-
 local function width()
   return window.width()
 end
 
+local function y()
+  return window.height()
+end
+
 function M.reset()
   fg = spec.default {
-    geo = { height = 128 },
+    geo = { height = size.ui.height },
     color = { '000000', '000000', '000000', '000000' },
-    border = { size = 128 },
-    blur = 128,
+    border = { size = size.ui.height },
+    blur = size.ui.height,
   }
 end
 
 function M.update()
-  fg.geo.y = y()
   fg.geo.width = width()
+  fg.geo.y = y()
 end
 
 function M.osd()

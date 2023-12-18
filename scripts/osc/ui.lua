@@ -2,7 +2,7 @@ local M = {}
 
 local mouse = require 'mouse'
 local osd = require 'osd'
-local time = require 'time'
+local timer = require 'timer'
 
 local elements, shown = {}, false
 
@@ -25,6 +25,8 @@ local function init()
   elements = {
     require 'background',
     require 'seek',
+    require 'elapsed',
+    require 'total-remaining',
     require 'play-pause',
   }
   for _, element in ipairs(elements) do
@@ -33,7 +35,7 @@ local function init()
     end
   end
   events()
-  time.subscribe(M.update)
+  timer.subscribe(M.update)
 end
 
 function M.update()
