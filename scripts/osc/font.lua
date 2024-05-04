@@ -1,6 +1,6 @@
 local win = require('env').win()
 
 return {
-  monospace = win and 'CaskaydiaCove NF' or 'monospace',
+  monospace = win and 'Cascadia Code NF' or 'monospace',
   sans_serif = win and 'Segoe UI Variable Display' or 'sans-serif'
 }
