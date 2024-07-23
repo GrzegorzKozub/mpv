@@ -26,8 +26,9 @@ local function init()
     require 'background',
     require 'seek',
     require 'elapsed',
-    require 'total-remaining',
+    -- require 'total-remaining',
     require 'play-pause',
+    require 'full-screen',
   }
   for _, element in ipairs(elements) do
     if element.reset then

@@ -9,7 +9,8 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  return window.width() / 2
+  -- return window.width() / 2
+      return size.margin * 1.5
 end
 
 local function y()

@@ -1,21 +1,23 @@
 local M = {}
 
-local font = require 'font'
 local hitbox = require 'hitbox'
 local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
 local window = require 'window'
 
-local property = 'duration'
 local fg = {}
 
+local function x()
+  return window.width() - size.margin - size.button
+end
+
 local function y()
-  return window.height() - size.margin - size.button / 2
+  return window.height() - size.margin - size.button
 end
 
 local function text()
-  return mp.format_time(mp.get_property_number(property) or 0)
+  return mp.get_property_bool 'fullscreen' and '󰊔' or '󰊓'
 end
 
 local function hover(arg)
@@ -26,25 +28,21 @@ local function hover(arg)
   end
 end
 
-local function total_remaining(arg)
+local function play_pause(arg)
   if hitbox.hit(fg.geo, arg) then
-    property = property == 'duration' and 'time-remaining' or 'duration'
+    mp.commandv('cycle', 'fullscreen')
   end
 end
 
 function M.reset()
   fg = spec.default {
-    geo = {
-      x = size.margin * 1.5 + size.time.width,
-      width = size.time.width,
-      height = size.time.height,
-      align = 4,
-    },
-    font = { name = font.sans_serif, size = 32 },
+    geo = { height = size.button, width = size.button },
+    font = { size = size.button },
   }
 end
 
 function M.update()
+  fg.geo.x = x()
   fg.geo.y = y()
 end
 
@@ -55,7 +53,7 @@ end
 function M.handlers()
   return {
     mouse_move = hover,
-    mbtn_left_up = total_remaining,
+    mbtn_left_up = play_pause,
   }
 end
 
