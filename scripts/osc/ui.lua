@@ -29,6 +29,7 @@ local function init()
     -- require 'total-remaining',
     require 'play-pause',
     require 'full-screen',
+    require 'subtitles',
   }
   for _, element in ipairs(elements) do
     if element.reset then
