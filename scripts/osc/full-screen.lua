@@ -9,7 +9,7 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  return window.width() - size.margin - size.button
+  return window.width() - 1.5 * size.margin
 end
 
 local function y()
@@ -28,7 +28,7 @@ local function hover(arg)
   end
 end
 
-local function play_pause(arg)
+local function toggle(arg)
   if hitbox.hit(fg.geo, arg) then
     mp.commandv('cycle', 'fullscreen')
   end
@@ -36,7 +36,7 @@ end
 
 function M.reset()
   fg = spec.default {
-    geo = { height = size.button, width = size.button },
+    geo = { width = size.button, height = size.button, align = 9 },
     font = { size = size.button },
   }
 end
@@ -53,7 +53,7 @@ end
 function M.handlers()
   return {
     mouse_move = hover,
-    mbtn_left_up = play_pause,
+    mbtn_left_up = toggle,
   }
 end
 

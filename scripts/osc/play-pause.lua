@@ -9,8 +9,7 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  -- return window.width() / 2
-      return size.margin * 1.5
+  return 1.5 * size.margin
 end
 
 local function y()
@@ -37,7 +36,7 @@ end
 
 function M.reset()
   fg = spec.default {
-    geo = { height = size.button, width = size.button },
+    geo = { width = size.button, height = size.button, align = 7 },
     font = { size = size.button },
   }
 end

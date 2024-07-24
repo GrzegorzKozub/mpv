@@ -22,7 +22,7 @@ end
 function M.reset()
   fg = spec.default {
     geo = {
-      x = size.margin * 1.5 + size.button,
+      x = size.margin + size.button,
       width = size.time.width,
       height = size.time.height,
       align = 4,

@@ -1,53 +1,48 @@
 local M = {}
 
-local audio, sub = {}, {}
+local tracks = {}
 
 function M.update()
-  audio, sub = {}, {}
-  local tracks = mp.get_property_native('track-list', {})
-  for i = 1, #tracks do
-    local type = tracks[i].type
+  tracks.audio, tracks.sub = {}, {}
+  local track_list = mp.get_property_native('track-list', {})
+  for i = 1, #track_list do
+    local type = track_list[i].type
     if type == 'unknown' or type == 'video' then
       goto continue
     end
-    if type == 'audio' then
-      table.insert(audio, tracks[i])
-    end
-    if type == 'sub' then
-      table.insert(sub, tracks[i])
-    end
+    table.insert(tracks[type], track_list[i])
     ::continue::
   end
 end
 
-function M.sub()
-  return sub
-end
-
-function M.sub_current()
-  if #sub == 0 then
+function M.current(type)
+  if #tracks[type] == 0 then
     return nil
   end
-  local curr = mp.get_property 'sub'
-  return curr == 'no' and 'off' or sub[tonumber(curr)].lang
+  local curr = mp.get_property(type)
+  return curr == 'no' and 'off' or tracks[type][tonumber(curr)].lang
 end
 
-function M.sub_next()
-  if #sub == 0 then
+function M.next(type)
+  if #tracks[type] == 0 then
     return
   end
-  local curr = mp.get_property 'sub'
-  local new = curr == 'no' and 1 or tonumber(curr) == #sub and 'no' or tonumber(curr) + 1
-  mp.commandv('set', 'sub', new)
+  local curr = mp.get_property(type)
+  local new = curr == 'no' and 1
+    or tonumber(curr) == #tracks[type] and 'no'
+    or tonumber(curr) + 1
+  mp.commandv('set', type, new)
 end
 
-function M.sub_prev()
-  if #sub == 0 then
+function M.prev(type)
+  if #tracks[type] == 0 then
     return
   end
-  local curr = mp.get_property 'sub'
-  local new = curr == 'no' and #sub or tonumber(curr) == 1 and 'no' or tonumber(curr) - 1
-  mp.commandv('set', 'sub', new)
+  local curr = mp.get_property(type)
+  local new = curr == 'no' and #tracks[type]
+    or tonumber(curr) == 1 and 'no'
+    or tonumber(curr) - 1
+  mp.commandv('set', type, new)
 end
 
 return M
