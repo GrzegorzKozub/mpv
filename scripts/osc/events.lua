@@ -5,6 +5,7 @@ local osd = require 'osd'
 local mouse = require 'mouse'
 local size = require 'size'
 local timer = require 'timer'
+local tracks = require 'tracks'
 local ui = require 'ui'
 local window = require 'window'
 
@@ -14,6 +15,7 @@ local function property_change()
     osd.setup()
     ui.update()
   end)
+  mp.observe_property('track-list', 'native', tracks.update)
   mp.observe_property('pause', 'native', ui.update)
   -- mp.observe_property('percent-pos', 'number', ui.update)
 end

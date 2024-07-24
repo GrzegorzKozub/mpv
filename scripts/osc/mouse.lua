@@ -1,9 +1,14 @@
 local M = {}
 
+local sections = { 'mouse buttons', 'mouse wheel' }
 local subscriptions = {
   mouse_move = {},
   mbtn_left_down = {},
   mbtn_left_up = {},
+  mbtn_right_down = {},
+  mbtn_right_up = {},
+  wheel_down = {},
+  wheel_up = {},
 }
 
 local function on_leave()
@@ -49,13 +54,35 @@ local function init()
         on 'mbtn_right_down'
       end,
     },
-  }, 'click', 'force')
+  }, 'mouse buttons', 'force')
+  mp.set_key_bindings({
+    {
+      'wheel_down',
+      function()
+        on 'wheel_down'
+      end,
+    },
+    {
+      'wheel_up',
+      function()
+        on 'wheel_up'
+      end,
+    },
+  }, 'mouse wheel', 'force')
 end
 
 init()
 
 function M.events()
-  return { 'mouse_move', 'mbtn_left_down', 'mbtn_left_up' }
+  return {
+    'mouse_move',
+    'mbtn_left_down',
+    'mbtn_left_up',
+    'mbtn_right_down',
+    'mbtn_right_up',
+    'wheel_down',
+    'wheel_up',
+  }
 end
 
 function M.subscribe(event, action)
@@ -63,11 +90,15 @@ function M.subscribe(event, action)
 end
 
 function M.enable()
-  mp.enable_key_bindings 'click'
+  for _, section in ipairs(sections) do
+    mp.enable_key_bindings(section)
+  end
 end
 
 function M.disable()
-  mp.disable_key_bindings 'click'
+  for _, section in ipairs(sections) do
+    mp.disable_key_bindings(section)
+  end
 end
 
 return M

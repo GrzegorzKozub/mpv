@@ -14,7 +14,7 @@ local function y()
 end
 
 local function text()
-  return format.time(mp.get_property_number 'time-pos' or 0)
+  return '󰅐 ' .. format.time(mp.get_property_number 'time-pos' or 0)
     .. ' / '
     .. format.time(mp.get_property_number 'duration' or 0)
 end
