@@ -27,9 +27,10 @@ local function init()
     require 'seek',
     require 'play-pause',
     require 'time',
-    require 'audio',
+    require 'panscan',
     require 'subtitles',
-    require 'full-screen',
+    require 'audio',
+    require 'fullscreen',
   }
   for _, element in ipairs(elements) do
     if element.reset then
