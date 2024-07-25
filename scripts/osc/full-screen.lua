@@ -1,5 +1,6 @@
 local M = {}
 
+local align = require 'align'
 local hitbox = require 'hitbox'
 local size = require 'size'
 local spec = require 'spec'
@@ -9,11 +10,11 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  return window.width() - 1.5 * size.margin
+  return window.width() - size.margin - 0.5 * size.button
 end
 
 local function y()
-  return window.height() - size.margin - size.button
+  return window.height() - size.margin - 0.5 * size.button
 end
 
 local function text()
@@ -36,8 +37,7 @@ end
 
 function M.reset()
   fg = spec.default {
-    geo = { width = size.button, height = size.button, align = 9 },
-    font = { size = size.button },
+    geo = { width = size.button, height = size.button, align = align.middle.center },
   }
 end
 

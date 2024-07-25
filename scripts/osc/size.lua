@@ -1,7 +1,8 @@
 return {
   ui = { height = 128 },
   margin = 16,
+  spacing = 8,
   button = 64,
-  time = { height = 32, width = 128 },
-  lang = { height = 32, width = 32 },
+  label = { height = 48 },
+  fix = { icon_label = 8 },
 }

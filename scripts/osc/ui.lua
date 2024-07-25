@@ -25,11 +25,10 @@ local function init()
   elements = {
     require 'background',
     require 'seek',
-    require 'elapsed',
-    -- require 'total-remaining',
     require 'play-pause',
-    require 'full-screen',
+    require 'time',
     require 'subtitles',
+    require 'full-screen',
   }
   for _, element in ipairs(elements) do
     if element.reset then

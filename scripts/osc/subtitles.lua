@@ -1,5 +1,6 @@
 local M = {}
 
+local align = require 'align'
 local font = require 'font'
 local hitbox = require 'hitbox'
 local size = require 'size'
@@ -8,22 +9,28 @@ local tags = require 'tags'
 local tracks = require 'tracks'
 local window = require 'window'
 
+local label_width = 48
 local icon, label = {}, {}
 
 local function icon_x()
-  return window.width() - 2.5 * size.margin - 2 * size.button + 16
+  return window.width()
+    - size.margin
+    - size.spacing
+    - 1.5 * size.button
+    - label_width
+    + size.fix.icon_label
 end
 
 local function label_x()
-  return window.width() - 2.5 * size.margin - size.button - 32
+  return window.width() - size.margin - size.spacing - size.button - label_width
 end
 
 local function icon_y()
-  return window.height() - size.margin - size.button
+  return window.height() - size.margin - 0.5 * size.button
 end
 
 local function label_y()
-  return window.height() - size.margin - 32 - 12
+  return window.height() - size.margin - 0.5 * 48 - 4
 end
 
 local function text()
@@ -58,12 +65,11 @@ end
 
 function M.reset()
   icon = spec.default {
-    geo = { width = size.button, height = size.button, align = 9 },
-    font = { size = size.button },
+    geo = { width = size.button, height = size.button, align = align.middle.center },
   }
   label = spec.default {
-    geo = { width = 32, height = 32, align = 7 },
-    font = { name = font.sans_serif },
+    geo = { width = label_width, height = size.button, align = align.middle.left },
+    font = { name = font.sans_serif, size = size.label.height },
   }
 end
 
