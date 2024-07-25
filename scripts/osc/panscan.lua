@@ -10,7 +10,7 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  return window.width() - size.margin - 0.5 * size.button - 500
+  return window.width() - size.margin - 1.5 * size.button
 end
 
 local function y()
