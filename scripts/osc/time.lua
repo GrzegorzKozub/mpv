@@ -1,5 +1,6 @@
 local M = {}
 
+local align = require 'align'
 local font = require 'font'
 local format = require 'format'
 local size = require 'size'
@@ -10,7 +11,7 @@ local window = require 'window'
 local fg = {}
 
 local function y()
-  return window.height() - size.margin - 0.5 * 48 - 4
+  return window.height() - size.margin - 0.5 * size.label.height
 end
 
 local function text()
@@ -22,12 +23,10 @@ end
 function M.reset()
   fg = spec.default {
     geo = {
-      x = size.margin + size.button + size.spacing,
-      width = 128,
-      height = 32,
-      align = 4,
+      x = size.margin + size.button + size.margin,
+      align = align.middle.left,
     },
-    font = { name = font.sans_serif, size = size.label.height },
+    font = { name = font.sans_serif, size = size.label.font },
   }
 end
 

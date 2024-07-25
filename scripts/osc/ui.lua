@@ -27,6 +27,7 @@ local function init()
     require 'seek',
     require 'play-pause',
     require 'time',
+    require 'audio',
     require 'subtitles',
     require 'full-screen',
   }

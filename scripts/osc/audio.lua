@@ -13,9 +13,9 @@ local button_fg, label_fg = {}, {}
 
 local function button_x()
   return window.width()
-    - 3 * size.margin
-    - 1.5 * size.button
-    - size.label.width
+    - 4 * size.margin
+    - 2.5 * size.button
+    - 2 * size.label.width
     + size.label.closer_to_button
 end
 
@@ -24,7 +24,7 @@ local function button_y()
 end
 
 local function label_x()
-  return window.width() - 3 * size.margin - size.button - size.label.width
+  return window.width() - 4 * size.margin - 2 * size.button - 2 * size.label.width
 end
 
 local function label_y()
@@ -32,7 +32,7 @@ local function label_y()
 end
 
 local function label_text()
-  local curr = tracks.current 'sub'
+  local curr = tracks.current 'audio'
   return curr and curr or ''
 end
 
@@ -51,13 +51,13 @@ end
 
 local function next(arg)
   if hit(arg) then
-    tracks.next 'sub'
+    tracks.next 'audio'
   end
 end
 
 local function previous(arg)
   if hit(arg) then
-    tracks.prev 'sub'
+    tracks.prev 'audio'
   end
 end
 
@@ -79,7 +79,7 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(button_fg) .. '󰨗' .. '\n' .. tags.get(label_fg) .. label_text()
+  return tags.get(button_fg) .. '󰓃' .. '\n' .. tags.get(label_fg) .. label_text()
 end
 
 function M.handlers()
