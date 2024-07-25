@@ -27,9 +27,10 @@ local function init()
     require 'seek',
     require 'play-pause',
     require 'time',
-    require 'panscan',
+    require 'chapter',
     require 'subtitles',
     require 'audio',
+    require 'panscan',
     require 'fullscreen',
   }
   for _, element in ipairs(elements) do

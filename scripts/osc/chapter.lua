@@ -1,8 +1,9 @@
 local M = {}
 
+-- https://github.com/mpv-player/mpv/blob/master/player/lua/osc.lua#L564
+
 local align = require 'align'
 local font = require 'font'
-local format = require 'format'
 local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
@@ -15,15 +16,18 @@ local function y()
 end
 
 local function text()
-  return format.time(mp.get_property_number('time-pos', 0))
-    .. ' / '
-    .. format.time(mp.get_property_number('duration', 0))
+  local proplist = mp.get_property_native('chapter-list', {})
+  if #proplist == 0 then
+    return ''
+  end
+  local c = mp.get_property_number('chapter', 0) + 1
+  return proplist[c].title or c
 end
 
 function M.reset()
   fg = spec.default {
     geo = {
-      x = size.margin + size.button + size.margin,
+      x = size.margin + size.button + size.margin + 500,
       align = align.middle.left,
     },
     font = { name = font.sans_serif, size = size.label.font },
