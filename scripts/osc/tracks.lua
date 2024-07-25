@@ -1,6 +1,6 @@
 local M = {}
 
-local tracks = {}
+local tracks = { audio = {}, sub = {} }
 
 function M.update()
   tracks.audio, tracks.sub = {}, {}
@@ -15,9 +15,13 @@ function M.update()
   end
 end
 
+function M.any(type)
+  return #tracks[type] ~= 0
+end
+
 function M.current(type)
   if #tracks[type] == 0 then
-    return nil
+    return ''
   end
   local curr = mp.get_property(type)
   return curr == 'no' and 'off' or tracks[type][tonumber(curr)].lang

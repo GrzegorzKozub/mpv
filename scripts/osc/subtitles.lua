@@ -32,8 +32,7 @@ local function label_y()
 end
 
 local function label_text()
-  local curr = tracks.current 'sub'
-  return curr and curr or ''
+  return tracks.current 'sub'
 end
 
 local function hit(arg)
@@ -79,7 +78,9 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(button_fg) .. '󰨗' .. '\n' .. tags.get(label_fg) .. label_text()
+  return tracks.any 'sub'
+      and tags.get(button_fg) .. '󰨗' .. '\n' .. tags.get(label_fg) .. label_text()
+    or ''
 end
 
 function M.handlers()
