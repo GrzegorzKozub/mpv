@@ -3,47 +3,42 @@ local M = {}
 local mouse = require 'mouse'
 local osd = require 'osd'
 local timer = require 'timer'
+local tracks = require 'tracks'
 
-local elements, shown = {}, false
+local added, elements, shown = {}, {}, false
 
-local function events()
-  for _, element in ipairs(elements) do
-    if not element.handlers then
-      goto continue
-    end
+local function add(name, element)
+  if require('util').contains(added, name) then
+    return
+  end
+  if element.reset then
+    element.reset()
+  end
+  if element.handlers then
     local handlers = element.handlers()
     for _, event in ipairs(mouse.events()) do
       if handlers[event] then
         mouse.subscribe(event, handlers[event])
       end
     end
-    ::continue::
   end
+  table.insert(added, name)
+  table.insert(elements, element)
 end
 
 local function init()
-  elements = {
-    require 'background',
-    require 'seek',
-    require 'play',
-    require 'chapter',
-    require 'time',
-    require 'subtitles',
-    require 'audio',
-    require 'panscan',
-    require 'fullscreen',
-  }
-  for _, element in ipairs(elements) do
-    if element.reset then
-      element.reset()
-    end
-  end
-  events()
+  add('background', require 'background') -- must be first
+  add('seek', require 'seek')
+  add('play', require 'play')
+  add('chapter', require 'chapter')
+  add('time', require 'time')
+  add('panscan', require 'panscan')
+  add('fullscreen', require 'fullscreen')
   timer.subscribe(M.update)
 end
 
 function M.update()
-  for _, element in ipairs(elements) do
+  for _, element in pairs(elements) do
     if element.update then
       element.update()
     end
@@ -67,6 +62,15 @@ end
 function M.hide()
   osd.hide()
   shown = false
+end
+
+function M.tracks()
+  if tracks.any 'sub' then
+    add('subtitles', require 'subtitles')
+  end
+  if tracks.any 'audio' then
+    add('audio', require 'audio')
+  end
 end
 
 init()

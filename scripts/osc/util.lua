@@ -27,4 +27,13 @@ function M.merge(a, b)
   return a
 end
 
+function M.contains(table, item)
+  for _, val in ipairs(table) do
+    if val == item then
+      return true
+    end
+  end
+  return false
+end
+
 return M
