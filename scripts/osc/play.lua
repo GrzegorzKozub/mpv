@@ -25,7 +25,7 @@ local function hover(arg)
   end
 end
 
-local function play_pause(arg)
+local function toggle(arg)
   if hitbox.hit(fg.geo, arg) then
     mp.commandv('cycle', 'pause')
   end
@@ -53,7 +53,7 @@ end
 function M.handlers()
   return {
     mouse_move = hover,
-    mbtn_left_up = play_pause,
+    mbtn_left_up = toggle,
   }
 end
 

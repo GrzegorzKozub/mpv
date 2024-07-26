@@ -1,9 +1,8 @@
 local M = {}
 
--- https://github.com/mpv-player/mpv/blob/master/player/lua/osc.lua#L564
-
 local align = require 'align'
-local font = require 'font'
+local chapters = require 'chapters'
+local hitbox = require 'hitbox'
 local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
@@ -12,25 +11,31 @@ local window = require 'window'
 local fg = {}
 
 local function y()
-  return window.height() - size.margin - 0.5 * size.label.height
+  return window.height() - size.margin - 0.5 * size.button
 end
 
-local function text()
-  local proplist = mp.get_property_native('chapter-list', {})
-  if #proplist == 0 then
-    return ''
+local function hover(arg)
+  if hitbox.hit(fg.geo, arg) then
+    spec.hover(fg)
+  else
+    M.reset()
   end
-  local c = mp.get_property_number('chapter', 0) + 1
-  return proplist[c].title or c
+end
+
+local function next(arg)
+  if hitbox.hit(fg.geo, arg) then
+    chapters.next()
+  end
 end
 
 function M.reset()
   fg = spec.default {
     geo = {
-      x = size.margin + size.button + size.margin + 500,
-      align = align.middle.left,
+      x = size.margin + 1.5 * size.button,
+      width = size.button,
+      height = size.button,
+      align = align.middle.center,
     },
-    font = { name = font.sans_serif, size = size.label.font },
   }
 end
 
@@ -39,7 +44,14 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(fg) .. text()
+  return chapters.any() and tags.get(fg) .. '󰒭' or ''
+end
+
+function M.handlers()
+  return {
+    mouse_move = hover,
+    mbtn_left_up = next,
+  }
 end
 
 return M

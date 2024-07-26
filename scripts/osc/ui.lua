@@ -25,9 +25,9 @@ local function init()
   elements = {
     require 'background',
     require 'seek',
-    require 'play-pause',
-    require 'time',
+    require 'play',
     require 'chapter',
+    require 'time',
     require 'subtitles',
     require 'audio',
     require 'panscan',
