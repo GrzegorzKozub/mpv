@@ -23,7 +23,7 @@ local function text()
   return format.time(mp.get_property_number('time-pos', 0))
     .. ' / '
     .. format.time(mp.get_property_number('duration', 0))
-    .. (chapters.any() and '   ' .. chapters.current() or '')
+    .. (chapters.any() and '    ' .. chapters.current() or '')
 end
 
 function M.reset()

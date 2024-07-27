@@ -1,14 +1,17 @@
 local M = {}
 
+local chapters = require 'chapters'
 local mouse = require 'mouse'
 local osd = require 'osd'
 local timer = require 'timer'
 local tracks = require 'tracks'
+local util = require 'util'
 
-local added, elements, shown = {}, {}, false
+local names, elements, shown = {}, {}, false
 
-local function add(name, element)
-  if require('util').contains(added, name) then
+local function reg(name)
+  local element = require(name)
+  if util.contains(names, name) then
     return
   end
   if element.reset then
@@ -22,23 +25,31 @@ local function add(name, element)
       end
     end
   end
-  table.insert(added, name)
+  table.insert(names, name)
   table.insert(elements, element)
 end
 
 local function init()
-  add('background', require 'background') -- must be first
-  add('seek', require 'seek')
-  add('play', require 'play')
-  add('chapter', require 'chapter')
-  add('time', require 'time')
-  add('panscan', require 'panscan')
-  add('fullscreen', require 'fullscreen')
+  local layers = {
+    [1] = { 'background' },
+    [2] = {
+      'seek',
+      'play',
+      'time',
+      'panscan',
+      'fullscreen',
+    },
+  }
+  for _, layer in ipairs(layers) do
+    for _, name in ipairs(layer) do
+      reg(name)
+    end
+  end
   timer.subscribe(M.update)
 end
 
 function M.update()
-  for _, element in pairs(elements) do
+  for _, element in ipairs(elements) do
     if element.update then
       element.update()
     end
@@ -64,12 +75,18 @@ function M.hide()
   shown = false
 end
 
-function M.tracks()
-  if tracks.any 'sub' then
-    add('subtitles', require 'subtitles')
+function M.chapters()
+  if chapters.any() then
+    reg 'chapter'
   end
+end
+
+function M.tracks()
   if tracks.any 'audio' then
-    add('audio', require 'audio')
+    reg 'audio'
+  end
+  if tracks.any 'sub' then
+    reg 'subtitles'
   end
 end
 

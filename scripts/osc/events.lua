@@ -16,7 +16,10 @@ local function property_change()
     osd.setup()
     ui.update()
   end)
-  mp.observe_property('chapter-list', 'native', chapters.update)
+  mp.observe_property('chapter-list', 'native', function()
+    chapters.update()
+    ui.chapters()
+  end)
   mp.observe_property('track-list', 'native', function()
     tracks.update()
     ui.tracks()
@@ -26,7 +29,10 @@ local function property_change()
 end
 
 local function mouse_in_active_area(arg)
-  return arg.x > 0 and arg.x < window.width() and arg.y > window.height() - size.ui.height and arg.y < window.height()
+  return arg.x > 0
+    and arg.x < window.width()
+    and arg.y > window.height() - size.ui.height
+    and arg.y < window.height()
 end
 
 local function mouse_move()

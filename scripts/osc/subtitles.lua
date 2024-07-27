@@ -13,7 +13,7 @@ local button_fg, label_fg = {}, {}
 
 local function button_x()
   return window.width()
-    - 4 * size.margin
+    - 5 * size.margin
     - 3.5 * size.button
     - 2 * size.label.width
     + size.label.closer_to_button
@@ -24,7 +24,7 @@ local function button_y()
 end
 
 local function label_x()
-  return window.width() - 4 * size.margin - 3 * size.button - 2 * size.label.width
+  return window.width() - 5 * size.margin - 3 * size.button - 2 * size.label.width
 end
 
 local function label_y()
