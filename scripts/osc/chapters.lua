@@ -15,7 +15,7 @@ function M.any()
 end
 
 function M.current()
-  if #chapters == 0 then
+  if #chapters == 0 or chapters[current()] == nil then
     return ''
   end
   return chapters[current()].title
