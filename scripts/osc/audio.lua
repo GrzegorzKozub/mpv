@@ -32,7 +32,7 @@ local function label_y()
 end
 
 local function label_text()
-  return tracks.current 'audio'
+  return tracks.current 'audio' or 'on'
 end
 
 local function hit(arg)
