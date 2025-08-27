@@ -1,8 +1,6 @@
 {
-  "diagnostics": {
-    "globals": [
-      "jit",
-      "mp"
-    ]
-  }
+  "diagnostics": { "globals": ["jit", "mp"] },
+  "hint.enable": true,
+  "hint.setType": true,
+  "runtime.version": "LuaJIT"
 }
