@@ -1,13 +1,13 @@
 local M = {}
 
-local tracks = { audio = {}, sub = {} }
+local tracks = { audio = {}, sub = {}, video = {} }
 
 function M.update()
-  tracks.audio, tracks.sub = {}, {}
+  tracks.audio, tracks.sub, tracks.video = {}, {}, {}
   local track_list = mp.get_property_native('track-list', {})
   for i = 1, #track_list do
     local type = track_list[i].type
-    if type == 'unknown' or type == 'video' then
+    if type == 'unknown' or (type == 'video' and track_list[i].albumart) then
       goto continue
     end
     table.insert(tracks[type], track_list[i])

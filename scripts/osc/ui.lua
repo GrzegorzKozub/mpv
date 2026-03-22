@@ -36,7 +36,6 @@ local function init()
       'seek',
       'play',
       'time',
-      'panscan',
       'fullscreen',
     },
   }
@@ -82,11 +81,18 @@ function M.chapters()
 end
 
 function M.tracks()
-  if tracks.any 'audio' then
-    reg 'audio'
-  end
-  if tracks.any 'sub' then
-    reg 'subtitles'
+  if tracks.any 'video' then
+    if tracks.any 'sub' then
+      reg 'subtitles'
+    end
+    if tracks.any 'audio' then
+      reg 'audio'
+    end
+    reg 'panscan'
+  else
+    if tracks.any 'audio' then
+      reg 'info'
+    end
   end
 end
 
