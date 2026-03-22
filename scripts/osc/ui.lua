@@ -92,6 +92,7 @@ function M.tracks()
   else
     if tracks.any 'audio' then
       reg 'info'
+      reg 'title'
     end
   end
 end

@@ -20,14 +20,14 @@ end
 local function text()
   local codec = string.upper(mp.get_property 'audio-codec-name' or '')
   local samplerate = mp.get_property_number 'audio-params/samplerate'
-  local format = mp.get_property 'audio-params/format' or ''
+  local format = string.match(mp.get_property 'audio-params/format' or '', '%d+')
   local bitrate = mp.get_property_number 'audio-bitrate'
   local info = { codec }
   if samplerate then
     table.insert(info, math.floor(samplerate / 1000) .. ' kHz')
   end
   if format then
-    table.insert(info, string.match(format, '%d+') .. '-bit')
+    table.insert(info, format .. '-bit')
   end
   if bitrate then
     table.insert(info, math.floor(bitrate / 1000 + 0.5) .. ' kbps')
