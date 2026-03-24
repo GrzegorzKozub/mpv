@@ -48,7 +48,7 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(fg) .. text()
+  return tags.get(fg) .. '󰓃  ' .. text()
 end
 
 return M

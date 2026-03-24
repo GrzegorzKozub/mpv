@@ -82,17 +82,17 @@ end
 
 function M.tracks()
   if tracks.any 'video' then
-    if tracks.any 'sub' then
-      reg 'subtitles'
-    end
     if tracks.any 'audio' then
       reg 'audio'
+    end
+    if tracks.any 'sub' then
+      reg 'subtitles'
     end
     reg 'panscan'
   else
     if tracks.any 'audio' then
-      reg 'info'
       reg 'title'
+      reg 'info'
     end
   end
 end

@@ -5,24 +5,27 @@ local font = require 'font'
 local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
-local tracks = require 'tracks'
 local window = require 'window'
 
 local fg = {}
 
-local seek_height = 8
-
 local function x()
-  return size.margin
+  return window.width() / 2
 end
 
 local function y()
-  return window.height() - 2 * size.margin - size.button - seek_height - size.margin
+  return window.height() - 2 * size.margin - size.button - 32
+end
+
+local function text()
+  local title = mp.get_property 'media-title' or ''
+  local artist = mp.get_property 'metadata/by-key/Artist' or ''
+  return artist ~= '' and title .. ' - ' .. artist or title
 end
 
 function M.reset()
   fg = spec.default {
-    geo = { align = align.bottom.left },
+    geo = { align = align.bottom.center },
     font = { name = font.sans_serif, size = size.label.font },
   }
 end
@@ -33,13 +36,7 @@ function M.update()
 end
 
 function M.osd()
-  if tracks.any 'video' then
-    return ''
-  end
-  local title = mp.get_property 'media-title' or ''
-  local artist = mp.get_property 'metadata/by-key/Artist' or ''
-  local text = artist ~= '' and title .. ' - ' .. artist or title
-  return tags.get(fg) .. text
+  return tags.get(fg) .. text()
 end
 
 return M
