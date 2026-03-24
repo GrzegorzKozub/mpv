@@ -32,7 +32,7 @@ local function text()
   if bitrate then
     table.insert(info, math.floor(bitrate / 1000 + 0.5) .. ' kbps')
   end
-  return table.concat(info, '  ')
+  return table.concat(info, ' · ')
 end
 
 function M.reset()
@@ -48,7 +48,7 @@ function M.update()
 end
 
 function M.osd()
-  return tags.get(fg) .. '󰓃  ' .. text()
+  return tags.get(fg) .. text()
 end
 
 return M

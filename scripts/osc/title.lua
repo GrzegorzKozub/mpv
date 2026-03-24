@@ -20,7 +20,7 @@ end
 local function text()
   local title = mp.get_property 'media-title' or ''
   local artist = mp.get_property 'metadata/by-key/Artist' or ''
-  return artist ~= '' and title .. ' - ' .. artist or title
+  return artist ~= '' and title .. ' · ' .. artist or title
 end
 
 function M.reset()
