@@ -13,25 +13,24 @@ local function width()
   return window.width()
 end
 
+local function height()
+  return (not tracks.any 'video' and tracks.any 'audio') and size.ui.height * 1.5
+    or size.ui.height
+end
+
 local function y()
   return window.height()
 end
 
-local function height()
-  return tracks.any 'video' and size.ui.height or size.ui.height * 2
-end
-
 function M.reset()
-  fg = spec.default {
-    color = { '000000', '000000', '000000', '000000' },
-  }
+  fg = spec.default { color = { '000000', '000000', '000000', '000000' } }
 end
 
 function M.update()
   local h = height()
   fg.geo.width = width()
-  fg.geo.y = y()
   fg.geo.height = h
+  fg.geo.y = y()
   fg.border.size = h
   fg.blur = h
 end
