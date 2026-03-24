@@ -1,8 +1,8 @@
 local M = {}
 
 local align = require 'align'
-local chapters = require 'chapters'
 local font = require 'font'
+local playlist = require 'playlist'
 local format = require 'format'
 local size = require 'size'
 local spec = require 'spec'
@@ -12,7 +12,9 @@ local window = require 'window'
 local fg = {}
 
 local function x()
-  return 2 * size.margin + size.button + (chapters.any() and (size.margin + size.button) or 0)
+  return 2 * size.margin
+    + size.button
+    + (playlist.has_next() and (size.margin + size.button) or 0)
 end
 
 local function y()
@@ -23,7 +25,6 @@ local function text()
   return format.time(mp.get_property_number('time-pos', 0))
     .. ' / '
     .. format.time(mp.get_property_number('duration', 0))
-    .. (chapters.any() and '    ' .. chapters.current() or '')
 end
 
 function M.reset()

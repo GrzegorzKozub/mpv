@@ -1,6 +1,5 @@
 local M = {}
 
-local chapters = require 'chapters'
 local mouse = require 'mouse'
 local osd = require 'osd'
 local timer = require 'timer'
@@ -74,12 +73,6 @@ function M.hide()
   shown = false
 end
 
-function M.chapters()
-  if chapters.any() then
-    reg 'chapter'
-  end
-end
-
 function M.tracks()
   if tracks.any 'video' then
     if tracks.any 'audio' then
@@ -92,6 +85,7 @@ function M.tracks()
   else
     if tracks.any 'audio' then
       reg 'title'
+      reg 'next'
       reg 'info'
     end
   end

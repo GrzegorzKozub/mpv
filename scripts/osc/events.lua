@@ -1,6 +1,5 @@
 local M = {}
 
-local chapters = require 'chapters'
 local delay = require 'delay'
 local mouse = require 'mouse'
 local osd = require 'osd'
@@ -16,16 +15,12 @@ local function property_change()
     osd.setup()
     ui.update()
   end)
-  mp.observe_property('chapter-list', 'native', function()
-    chapters.update()
-    ui.chapters()
-  end)
   mp.observe_property('track-list', 'native', function()
     tracks.update()
     ui.tracks()
   end)
+  mp.observe_property('playlist-pos', 'number', ui.update)
   mp.observe_property('pause', 'native', ui.update)
-  -- mp.observe_property('percent-pos', 'number', ui.update)
 end
 
 local function mouse_in_active_area(arg)

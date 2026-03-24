@@ -1,8 +1,8 @@
 local M = {}
 
 local align = require 'align'
-local chapters = require 'chapters'
 local hitbox = require 'hitbox'
+local playlist = require 'playlist'
 local size = require 'size'
 local spec = require 'spec'
 local tags = require 'tags'
@@ -24,7 +24,7 @@ end
 
 local function next(arg)
   if hitbox.hit(fg.geo, arg) then
-    chapters.next()
+    playlist.next()
   end
 end
 
@@ -44,14 +44,11 @@ function M.update()
 end
 
 function M.osd()
-  return chapters.any() and tags.get(fg) .. '󰒭' or ''
+  return playlist.has_next() and tags.get(fg) .. '󰒭' or ''
 end
 
 function M.handlers()
-  return {
-    mouse_move = hover,
-    mbtn_left_up = next,
-  }
+  return { mouse_move = hover, mbtn_left_up = next }
 end
 
 return M
